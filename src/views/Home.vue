@@ -17,7 +17,12 @@
               :growth-last-month="growthLastMonth"
             />
           </div>
-          <div class="left2">222</div>
+          <div class="left2">
+            <average-age
+              :data="ageData"
+              :avg-age="averageAge"
+            />
+          </div>
           <div class="left3">333</div>
           <div class="left4">444</div>
           <div class="left5">555</div>
@@ -47,12 +52,14 @@
 <script>
 import TopHeader from '@/components/TopHeader/'
 import TotalUser from '@/components/TotalUser/index'
+import AverageAge from '@/components/AverageAge/index'
 import useScreenData from '@/hooks/useScreenData'
 import { ref } from 'vue'
 
 export default {
   name: 'Home',
   components: {
+    AverageAge,
     TopHeader,
     TotalUser
   },

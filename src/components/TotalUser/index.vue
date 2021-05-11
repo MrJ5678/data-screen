@@ -3,32 +3,28 @@
     <div class="title">用户总数</div>
     <div class="sub-title">User Total Count</div>
     <div class="total">
-      {{todayUser}}
-<!--      <count-to :start-val="startVal" :end-val="todayUser" :duration="1000" />-->
+      <count-to :start-val="startVal" :end-val="todayUser" :duration="1000" />
     </div>
     <div class="percent-text">
       <span class="percent-text-1">
         每日增长率:
-        {{growthLastDay}}
-<!--        <count-to :start-val="startPercent" :end-val="growthLastDay" :duration="1000" :decimals="2" suffix="%" />-->
+        <count-to :start-val="startPercent" :end-val="growthLastDay" :duration="1000" :decimals="2" suffix="%" />
       </span>
       <span class="percent-text-2">
         每月增长率:
-        {{growthLastMonth}}
-<!--        <count-to :start-val="startPercent2" :end-val="growthLastMonth" :duration="1000" :decimals="2" suffix="%" />-->
+        <count-to :start-val="startPercent2" :end-val="growthLastMonth" :duration="1000" :decimals="2" suffix="%" />
       </span>
     </div>
     <div class="percent">
       <div class="percent-inner-wrapper">
-        <div class="percent-inner" />
-<!--        :style="{ width: `${growthLastDay}%` }"-->
+        <div class="percent-inner" :style="{ width: `${growthLastDay}%` }"/>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-// import { ref, watch } from 'vue'
+import { ref, watch } from 'vue'
 
 export default {
   name: 'totalUser',
@@ -46,25 +42,25 @@ export default {
       default: 0
     }
   },
-  // setup (props) {
-  //   const startVal = ref(0)
-  //   const startPercent = ref(0)
-  //   const startPercent2 = ref(0)
-  //   watch(() => props.todayUser, (nextValue, prevValue) => {
-  //     startVal.value = prevValue
-  //   })
-  //   watch(() => props.growthLastDay, (nextValue, prevValue) => {
-  //     startPercent.value = prevValue
-  //   })
-  //   watch(() => props.growthLastMonth, (nextValue, prevValue) => {
-  //     startPercent2.value = prevValue
-  //   })
-  //   return {
-  //     startVal,
-  //     startPercent,
-  //     startPercent2
-  //   }
-  // }
+  setup (props) {
+    const startVal = ref(0)
+    const startPercent = ref(0)
+    const startPercent2 = ref(0)
+    watch(() => props.todayUser, (nextValue, prevValue) => {
+      startVal.value = prevValue
+    })
+    watch(() => props.growthLastDay, (nextValue, prevValue) => {
+      startPercent.value = prevValue
+    })
+    watch(() => props.growthLastMonth, (nextValue, prevValue) => {
+      startPercent2.value = prevValue
+    })
+    return {
+      startVal,
+      startPercent,
+      startPercent2
+    }
+  }
 }
 </script>
 
