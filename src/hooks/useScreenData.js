@@ -1,6 +1,6 @@
 import { ref, onMounted, onUnmounted } from 'vue'
 
-/* eslint-disable */
+/* eslint-disable-next-line */
 const ageMockData = [{
   'startValue': 0,
   'value': 131107,
@@ -23,6 +23,21 @@ const ageMockData = [{
   'color': 'rgb(251,253,142)'
 }]
 
+/* eslint-disable */
+const deviceMockData = {
+  'totalDevices': 1070909,
+  'devices': [{
+    'key': 'Android',
+    'value': 423676
+  }, {
+    'key': 'iOS',
+    'value': 373581
+  }, {
+    'key': 'PC',
+    'value': 273652
+  }]
+}
+
 function random (val) {
   return Math.floor(Math.random() * val)
 }
@@ -33,6 +48,7 @@ export default function () {
   const growthLastMonth = ref(15)
   const ageData = ref(ageMockData)
   const averageAge = ref(0)
+  const deviceData = ref(deviceMockData)
 
   let task
 
@@ -48,7 +64,14 @@ export default function () {
         item.value = item.value + random(100)
       })
       ageData.value = _ageData
-    }, 1000)
+
+      const _deviceData = {...deviceData.value }
+      _deviceData.totalDevices += random(100)
+      _deviceData.device.forEach(item => {
+        item.value += random(1000)
+      })
+      deviceData.value = _deviceData
+    }, 100000)
   })
 
   onUnmounted(() => {
@@ -60,6 +83,7 @@ export default function () {
     growthLastDay,
     growthLastMonth,
     ageData,
-    averageAge
+    averageAge,
+    deviceData
   }
 }

@@ -23,7 +23,9 @@
               :avg-age="averageAge"
             />
           </div>
-          <div class="left3">333</div>
+          <div class="left3">
+            <total-device :data="deviceData"/>
+          </div>
           <div class="left4">444</div>
           <div class="left5">555</div>
           <div class="left6">666</div>
@@ -53,22 +55,34 @@
 import TopHeader from '@/components/TopHeader/'
 import TotalUser from '@/components/TotalUser/index'
 import AverageAge from '@/components/AverageAge/index'
-import useScreenData from '@/hooks/useScreenData'
+import TotalDevice from '@/components/TotalDevice/index'
 import { ref } from 'vue'
+import useScreenData from '@/hooks/useScreenData'
 
 export default {
   name: 'Home',
   components: {
+    TotalDevice,
     AverageAge,
     TopHeader,
     TotalUser
   },
   setup () {
     const loading = ref(false)
-
+    const options = ref({
+      xAxis: {
+        data: ['a', 'b', 'c', 'd']
+      },
+      yAxis: {},
+      series: [{
+        type: 'bar',
+        data: [10, 20, 30, 40]
+      }]
+    })
     return {
       loading,
-      ...useScreenData()
+      ...useScreenData(),
+      options
     }
   }
 }

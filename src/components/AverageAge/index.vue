@@ -17,7 +17,9 @@
         </div>
       </div>
     </div>
-    <div id="average-age-chart"/>
+    <div id="average-age-chart">
+      <vue-chart :options="options"/>
+    </div>
     <div class="average-data-wrapper">
       <div class="average-data" v-for="(item, index) in data" :key="index">
         <div class="average-data-value">
@@ -37,7 +39,7 @@
 </template>
 
 <script>
-import { ref, watch } from 'vue'
+import { ref, watch, onMounted } from 'vue'
 
 // const color = ['rgb(116,166,49)', 'rgb(190,245,99)', 'rgb(202,252,137)', 'rgb(251,253,142)']
 
@@ -48,14 +50,97 @@ export default {
     avgAge: Number
   },
   setup (props) {
+    /* eslint-disable */
     const startAge = ref(0)
+    const options = ref({})
+
+    const updateChart = () => {
+      const data = ['指标']
+      const color = []
+      const axis = ['指标']
+      let max = 0
+      console.log(props.data)
+      props.data.forEach(item => {
+        data.push(item.value)
+        max += +item.value
+        color.push(item.color)
+        axis.push(item.axis)
+      })
+      // console.log(data, max, color, axis)
+      options.value = {
+        color,
+        grid: {
+          left: 40,
+          right: 40,
+          top: 0
+        },
+        tooltip: {
+          textStyle: {
+            fontSize: 28
+          },
+          padding: 10
+        },
+        dataset: {
+          source: [
+            axis,
+            data
+          ]
+        },
+        xAxis: {
+          type: "value",
+          boundaryGap: false,
+          max,
+          splitLine: {
+            show: false
+          },
+          axisTick: { show: false },
+          axisLabel: {
+            color: "rgb(98, 105, 113)",
+            fontSize: 18
+          },
+          axisLine: {
+            lineStyle: {
+              color: "rgb(50, 51, 53)",
+              width: 3
+            }
+          }
+        },
+        yAxis: {
+          type: 'category',
+          show: false
+        },
+        series: [{
+          type: 'bar',
+          stack: 'total',
+          barWidth: 15
+        }, {
+          type: 'bar',
+          stack: 'total'
+        }, {
+          type: 'bar',
+          stack: 'total'
+        }, {
+          type: 'bar',
+          stack: 'total'
+        }]
+      }
+    }
+
+    onMounted(() => {
+      updateChart()
+    })
 
     watch(() => props.avgAge, (nextValue, prevValue) => {
       startAge.value = prevValue
     })
 
+    watch(() => props.data, () => {
+      updateChart()
+    })
+
     return {
-      startAge
+      startAge,
+      options
     }
   }
 }
